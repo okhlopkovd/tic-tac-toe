@@ -3,8 +3,6 @@ SOURCE_PATH = source
 HEADERS_PATH = headers
 OBJECTS_PATH = objects
 
-export LD_LIBRARY_PATH=$(SFML_PATH)/lib
-
 game: 
 	g++ -c $(SOURCE_PATH)/Interface.cpp -I $(HEADERS_PATH)/ -I $(SFML_PATH)/include -o $(OBJECTS_PATH)/Interface.o
 	g++ -c $(SOURCE_PATH)/TicTacToe.cpp -I $(HEADERS_PATH)/ -o $(OBJECTS_PATH)/TicTacToe.o
