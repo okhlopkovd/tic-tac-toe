@@ -11,11 +11,11 @@ std::vector<std::vector<std::vector<char>>> TicTacToeAI::possibleMoves(std::vect
     const int colsLen = state[0].size();
     std::vector<std::vector<std::vector<char>>> possibleMoves;
 
-    for (int i = 0; i < rowsLen; i++){
-        for (int j = 0; j < colsLen; j++){
-            if(state[i][j] == emptyCell){
+    for (int rowIdx = 0; rowIdx < rowsLen; rowIdx++){
+        for (int colIdx = 0; colIdx < colsLen; colIdx++){
+            if(state[rowIdx][colIdx] == emptyCell){
                 std::vector<std::vector<char>> possibleMove = state;
-                possibleMove[i][j] = currentPlayer;
+                possibleMove[rowIdx][colIdx] = currentPlayer;
                 possibleMoves.push_back(possibleMove);
             }
         }  
@@ -41,8 +41,8 @@ int TicTacToeAI::minimax(std::vector<std::vector<char>>& state, int alpha, int b
         int bestScore = - 100;
         std::vector<std::vector<std::vector<char>>> possibleSpots = possibleMoves(state, aiPlayer);
 
-        for (int i = 0; i < possibleSpots.size(); i++){
-            int score = minimax(possibleSpots[i], alpha, beta, false);
+        for (int possibleSpotIdx = 0; possibleSpotIdx < possibleSpots.size(); possibleSpotIdx++){
+            int score = minimax(possibleSpots[possibleSpotIdx], alpha, beta, false);
             bestScore = std::max(score, bestScore);
 
             alpha = std::max(alpha, score);
@@ -55,8 +55,8 @@ int TicTacToeAI::minimax(std::vector<std::vector<char>>& state, int alpha, int b
         int bestScore = 100;
         std::vector<std::vector<std::vector<char>>> possibleSpots = possibleMoves(state, humanPlayer);
 
-        for (int i = 0; i < possibleSpots.size(); i++){
-            int score = minimax(possibleSpots[i], alpha, beta, true);
+        for (int possibleSpotIdx = 0; possibleSpotIdx < possibleSpots.size(); possibleSpotIdx++){
+            int score = minimax(possibleSpots[possibleSpotIdx], alpha, beta, true);
             bestScore = std::min(score, bestScore);
 
             beta = std::min(beta, score);
@@ -79,16 +79,16 @@ std::vector<int> TicTacToeAI::aiMove(std::vector<std::vector<char>>& state){
     const int rowsLen = state.size();
     const int colsLen = state[0].size();
     
-    for(int i=0; i<rowsLen;i++){
-        for (int j = 0; j < colsLen; j++){
-           if(state[i][j] == emptyCell){
-                state[i][j] = aiPlayer;
+    for(int rowIdx=0; rowIdx<rowsLen; rowIdx++){
+        for (int colIdx = 0; colIdx < colsLen; colIdx++){
+           if(state[rowIdx][colIdx] == emptyCell){
+                state[rowIdx][colIdx] = aiPlayer;
                 int score = minimax(state, -100, 100, false);
-                state[i][j] = emptyCell;
+                state[rowIdx][colIdx] = emptyCell;
 
                 if(score>bestScore){
                     bestScore = score;
-                    bestSpot = {i, j};
+                    bestSpot = {rowIdx, colIdx};
                 }
            }
         }

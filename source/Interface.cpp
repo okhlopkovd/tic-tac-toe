@@ -41,15 +41,15 @@ void Interface::drawField(){
     gameWindow.display();
 }
 
-void Interface::makeMove(int& i, int& j){
+void Interface::makeMove(int& row, int& column){
     /*
     Marks the [i][j] spot as the char for currentPlayer
     */
 
     const char currentPlayer = game.getCurrentPlayer();
-    game[i][j] = currentPlayer;
+    game[row][column] = currentPlayer;
 
-    drawMove(i, j, currentPlayer);
+    drawMove(row, column, currentPlayer);
     game.nextPlayer();
 }
 
@@ -65,7 +65,7 @@ void Interface::drawMove(const int& row, const int& column, const char& currentP
     /*
     Draws the char for the passed player on the grid 
     */
-   
+
     const int offset = cellHeight / 50;
     
     if(currentPlayer == 'x'){

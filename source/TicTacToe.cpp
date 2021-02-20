@@ -10,9 +10,9 @@ TicTacToe::TicTacToe(const int& boardSize, std::vector<std::vector<char>> startS
     this->currentPlayer = startPlayer;
 
     if(startState.size() == 0){
-        for(int i=0; i<boardSize;i++){
+        for(int newRow=0; newRow<boardSize; newRow++){
             std::vector<char> row;
-            for(int j=0; j<boardSize;j++) row.push_back(TicTacToe::getEmptyCell());
+            for(int newCol=0; newCol<boardSize; newCol++) row.push_back(TicTacToe::getEmptyCell());
             gameState.push_back(row);
         }
     }
@@ -108,13 +108,13 @@ char TicTacToe::winnerCheck(){
 
     std::set<char> mdWinner; 
     std::set<char> adWinner; 
-    for (int i = 0; i < boardSize; i++){
+    for (int curRowIdx = 0; curRowIdx < boardSize; curRowIdx++){
         std::set<char> hWinner; 
         std::set<char> vWinner; 
 
-        for (int j = 0; j < boardSize; j++){
-            char vCell = gameState[j][i];
-            char hCell = gameState[i][j];
+        for (int curColIdx = 0; curColIdx < boardSize; curColIdx++){
+            char vCell = gameState[curColIdx][curRowIdx];
+            char hCell = gameState[curRowIdx][curColIdx];
             
             if(vCell == emptyCell or hCell == emptyCell and tiePossibility==true)
                 tiePossibility = false;
@@ -122,8 +122,8 @@ char TicTacToe::winnerCheck(){
             hWinner.insert(hCell);
             vWinner.insert(vCell);
 
-            if(i==j) mdWinner.insert(vCell); 
-            if(j==boardSize-i-1) adWinner.insert(gameState[i][j]);  
+            if(curRowIdx==curColIdx) mdWinner.insert(vCell); 
+            if(curColIdx==boardSize-curRowIdx-1) adWinner.insert(gameState[curRowIdx][curColIdx]);  
         }
         winners.push_back(hWinner); 
         winners.push_back(vWinner); 
@@ -131,8 +131,8 @@ char TicTacToe::winnerCheck(){
     winners.push_back(adWinner);
     winners.push_back(mdWinner);
 
-    for(int i=0;i<winners.size();i++){
-        std::set<char> winner = winners[i];
+    for(int winnerStateIdx=0; winnerStateIdx<winners.size(); winnerStateIdx++){
+        std::set<char> winner = winners[winnerStateIdx];
 
         if(winner == winner1) return player1;
         else if(winner == winner2) return player2;
@@ -157,7 +157,7 @@ char TicTacToe::getCurrentPlayer() {
     /*
     Returns the char for current player
     */
-   
+
     return currentPlayer; 
 }
 
