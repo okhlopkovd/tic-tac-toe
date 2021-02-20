@@ -1,6 +1,11 @@
 #include <TicTacToe.hpp>
 
 TicTacToe::TicTacToe(const int& boardSize, std::vector<std::vector<char>> startState, char startPlayer){
+    /* 
+    Constructs a game board with passed boardSize,
+    startState(optional) by default an empty vector and startPlayer(optional) by default player x
+    */
+
     this->boardSize = boardSize;
     this->currentPlayer = startPlayer;
 
@@ -16,41 +21,84 @@ TicTacToe::TicTacToe(const int& boardSize, std::vector<std::vector<char>> startS
 }
 
 char TicTacToe::getPlayer1(){
-     return player1; 
+    /* 
+    Returns the char for player1
+    */
+
+    return player1; 
 }
 char TicTacToe::getPlayer2(){ 
+    /* 
+    Returns the char for player2
+    */
+
     return player2; 
 }
 
 std::vector<std::vector<char>> TicTacToe::getGameState() { 
+    /* 
+    Returns a 2d char vector with current game state
+    */
+
     return gameState;
 }
 
 void TicTacToe::nextPlayer(){
+    /*
+    Gives the turn to the next player
+    */
     if (currentPlayer == player1) currentPlayer = player2;
     else currentPlayer = player1;
 }
 
 char TicTacToe::getEmptyCell(){ 
+    /*
+    Returns the char for an empty cell
+    */
+
     return emptyCell;
 }
 
-std::vector<char>& TicTacToe::operator[](int& row){ return gameState[row]; }
+std::vector<char>& TicTacToe::operator[](int& row){ 
+    return gameState[row]; 
+}
 
 char TicTacToe::getGoAhead(){ 
+    /*
+    Returns the char for the case, where there are no winner yet, but 
+    the board still has some empty cells
+    */
+
     return goAhead; 
 }
 
 char TicTacToe::getTie(){ 
+    /*
+    Returns the char for the tie state of the game
+    */
+
     return tie; 
 }
 
 bool TicTacToe::isAvailable(const int& row, const int& column){
+    /*
+    Returns true if [row][column] is an empty cell and false otherwise
+    */
+
     if(gameState[row][column] == emptyCell) return true;
     else return false;
 }
 
 char TicTacToe::winnerCheck(){
+    /*
+    Returns either player1 or player2 chars, when there's a winner
+    Returns tie char when there is a tie
+    Returns goAhead char when there is no winner, but the board still has some cells available
+
+    The main algorithm here is to create a set for each row, column and diagonal and add respective chars to the each set. 
+    If one of the sets contains only one char and this char is not the char for an empty spot, it means, that there is a winner
+    */
+
     bool tiePossibility = true;
 
     std::set<char> winner1 = {player1}; 
@@ -106,6 +154,10 @@ int TicTacToe::getBoardSize(){
 }
 
 char TicTacToe::getCurrentPlayer() { 
+    /*
+    Returns the char for current player
+    */
+   
     return currentPlayer; 
 }
 

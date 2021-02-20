@@ -1,6 +1,10 @@
 #include <Interface.hpp>
 
 Interface::Interface(const int& boardSize, const bool ai){
+    /*
+    Constructs a graphic interface for the game of tic-tac-toe
+    */
+
     gameWindow.create(sf::VideoMode(windowWidth, windowHeight+tabSize), "TicTacToe", sf::Style::Close);
     game = TicTacToe(boardSize);
     this->ai = ai; 
@@ -10,6 +14,10 @@ Interface::Interface(const int& boardSize, const bool ai){
 }
 
 void Interface::drawField(){
+    /*
+    Draws the grid
+    */
+
     const int boardSize = game.getBoardSize();
 
     for (int i = 1; i < boardSize; i++){
@@ -34,6 +42,10 @@ void Interface::drawField(){
 }
 
 void Interface::makeMove(int& i, int& j){
+    /*
+    Marks the [i][j] spot as the char for currentPlayer
+    */
+
     const char currentPlayer = game.getCurrentPlayer();
     game[i][j] = currentPlayer;
 
@@ -42,10 +54,18 @@ void Interface::makeMove(int& i, int& j){
 }
 
 std::vector<int> Interface::coordsToBoard(const int& x, const int& y){
+    /*
+    Returns an int vector with the row and column for the passsed coordinates
+    */
+
     return {y/cellHeight, x/cellWidth};
 }
 
 void Interface::drawMove(const int& row, const int& column, const char& currentPlayer){
+    /*
+    Draws the char for the passed player on the grid 
+    */
+   
     const int offset = cellHeight / 50;
     
     if(currentPlayer == 'x'){
@@ -86,6 +106,10 @@ void Interface::drawMove(const int& row, const int& column, const char& currentP
 }
 
 void Interface::drawWinner(const char& winner){
+    /*
+    Draws the text the passed game result in a special place below the board
+    */
+
     const std::string fontFolder = "fonts/";
     const std::string tieString = "Game resulted in a tie";
 
@@ -106,6 +130,18 @@ void Interface::drawWinner(const char& winner){
 }
 
 void Interface::gameLoop(){
+    /*
+    The main loop of the game
+
+    Basic algorithm:
+
+    1. Wait for the player to click somewhere
+    2. Convert mouse coordinates to the row and the column
+    3. If [row][column] is available, mark the spot and draw the move
+    4. If ai is enabled, calculate the best spot, mark it and draw the move
+    5. If returned char for winner is not goAhead char, draw the winner
+    */
+
     TicTacToeAI aiPlayer;
     const char tie = game.getTie();
     const char goAhead = game.getGoAhead();
